@@ -17,7 +17,7 @@ public:
 
     // Деструктор, сообщающий о разрушении объекта
     ~Point() {
-        cout << "Object at (" << x << ", " << y << ") is destroyed." << endl;
+        cout << "Точка с координатами (" << x << ", " << y << ") уничтожена." << endl;
     }
 
     // Статический метод для вычисления расстояния между двумя точками
@@ -50,31 +50,78 @@ public:
 
     // Деструктор, сообщающий о разрушении объекта
     ~LocalNetwork() {
-        cout << "LocalNetwork object destroyed." << endl;
+        cout << "Объект LocalNetwork уничтожен." << endl;
     }
 };
 
-int main() {
-    // Задание 1: Создание массива из 4 объектов класса Point
+// Функция для выполнения задания 1: вычисление площади прямоугольника
+void task1() {
+    float a,b;
+    cout << "Введите длины сторон:" << endl;
+
+    cout << "Ширина: "; cin >> a;
+    cout << "Длина: "; cin >> b;
+
+    // Создание массива из 4 объектов класса Point
     Point* rectangleVertices = new Point[4]{
         Point(0.0, 0.0), // Нижний левый угол
-        Point(0.0, 4.0), // Верхний левый угол
-        Point(3.0, 4.0), // Верхний правый угол
-        Point(3.0, 0.0)  // Нижний правый угол
+        Point(0.0, a), // Верхний левый угол
+        Point(b, a), // Верхний правый угол
+        Point(b, 0.0)  // Нижний правый угол
     };
 
     // Вычисление площади прямоугольника
     float area = calculateRectangleArea(rectangleVertices);
-    cout << "Area of the rectangle: " << area << endl;
+    cout << "Площадь прямоугольника: " << area << endl;
 
     // Освобождение памяти
     delete[] rectangleVertices;
+}
 
-    // Задание 2: Создание локальной сети
-    LocalNetwork network(10, 150.0); 
+// Функция для выполнения задания 2: расчет стоимости установки
+void task2() {
+    int devices;
+    float costPerDevice;
+
+    // Запрос у пользователя данных для расчета
+    cout << "Введите количество устройств в сети: ";
+    cin >> devices;
+    cout << "Введите стоимость установки на одно устройство: ";
+    cin >> costPerDevice;
+
+    // Создание локальной сети
+    LocalNetwork network(devices, costPerDevice);
     // Расчет минимальной стоимости установки
     float installationCost = network.calculateMinimumInstallationCost();
-    cout << "Minimum installation cost: " << installationCost << endl;
+    cout << "Минимальная стоимость установки: " << installationCost << endl;
+}
+
+int main() {
+    int choice;
+    do {
+        // Меню программы
+        cout << "\nМеню:\n";
+        cout << "1 - Вычислить площадь прямоугольника (Задание 1)\n";
+        cout << "2 - Вычислить стоимость установки сети (Задание 2)\n";
+        cout << "0 - Выход\n";
+        cout << "Введите ваш выбор: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                task1(); // Выполнение задания 1
+                break;
+            case 2:
+                task2(); // Выполнение задания 2
+                break;
+            case 0:
+                cout << "Выход из программы..." << endl;
+                break;
+            default:
+                cout << "Ошибка: неверный выбор. Попробуйте снова." << endl;
+                break;
+        }
+    } while (choice != 0);
 
     return 0; // Завершение программы
 }

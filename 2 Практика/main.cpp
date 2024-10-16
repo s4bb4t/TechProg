@@ -5,6 +5,7 @@ using namespace std;
 
 // Глобальные переменные для второй версии
 unsigned char globalA;
+int globalState;
 float globalB;
 double globalArray[5]; // Глобальный массив для хранения элементов
 double globalPositiveSum = 0; // Глобальная переменная для суммы положительных элементов
@@ -15,17 +16,20 @@ void task1(bool useGlobal) {
     if (useGlobal) {
         // Используем глобальные переменные
         cout << "Введите значение для unsigned char (0-255): ";
-        cin >> globalA;
+        cin >> globalState;
 
-        if (cin.fail() || globalA < 0 || globalA > 255) {
+        if (cin.fail() || globalState < 0 || globalState > 255) {
             cout << "Ошибка: введите значение в диапазоне от 0 до 255." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             return;
         }
 
+        globalA = static_cast<unsigned char>(globalState);
+
         cout << "Введите значение для float: ";
         cin >> globalB;
+
 
         // Вычисляем сумму
         float sum = globalA + globalB;
@@ -34,16 +38,19 @@ void task1(bool useGlobal) {
         cout << "Размер суммы (в байтах): " << sizeof(sum) << endl;
     } else {
         // Используем локальные переменные
+        int input;
         unsigned char a;
         float b;
 
         cout << "Введите значение для unsigned char (0-255): ";
-        cin >> a;
+        cin >> input;
 
-        if (cin.fail() || a < 0 || a > 255) {
+        if (cin.fail() || input < 0 || input > 255) {
             cout << "Ошибка: введите значение в диапазоне от 0 до 255." << endl;
             return;
         }
+
+        a = static_cast<unsigned char>(input);
 
         cout << "Введите значение для float: ";
         cin >> b;
@@ -103,16 +110,16 @@ int main() {
         cout << "Выберите задание:\n1 - Задание 1\n2 - Задание 2\n0 - Выход\n";
         cin >> task;
 
-        if (task == '0') break; // Выход из программы
+        if (task == 0) break; // Выход из программы
 
         cout << "Выберите версию:\n1 - Локальные переменные\n2 - Глобальные переменные\n";
         cin >> version;
 
         switch (task) {
-            case '1':
+            case 1:
                 task1(version == 2);
                 break;
-            case '2':
+            case 2:
                 task2(version == 2);
                 break;
             default:
