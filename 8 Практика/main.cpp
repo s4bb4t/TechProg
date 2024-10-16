@@ -4,33 +4,28 @@
 
 using namespace std;
 
-// Функция для демонстрации меню программы
-void showMenu() {
-    cout << "Меню программы:\n";
-    cout << "1. Создать вектор из 1000 объектов\n";
-    cout << "2. Добавить 500 элементов в середину вектора\n";
-    cout << "3. Очистить вектор\n";
-    cout << "4. Выйти\n";
-}
-
 int main() {
-    vector<PeerToPeerNetwork> networks(1000, PeerToPeerNetwork("Network", 10000, 10));
+    // Вектор указателей на объекты локальных сетей
+    vector<LocalNetwork*> networks;
 
-    vector<PeerToPeerNetwork> reversedNetworks(networks.rbegin(), networks.rend());
+    // Добавляем одноранговые и клиент-серверные сети в вектор
+    networks.push_back(new PeerToPeerNetwork("Сеть A", 10000, 10));
+    networks.push_back(new ClientServerNetwork("Сеть B", 15000, 5));
+    networks.push_back(new PeerToPeerNetwork("Сеть C", 8000, 8));
+    networks.push_back(new ClientServerNetwork("Сеть D", 20000, 15));
+    networks.push_back(new PeerToPeerNetwork("Сеть E", 12000, 12));
 
-    cout << "Вычисляемый показатель (суммарная стоимость установки в обратном векторе): " 
-         << reversedNetworks[0].calculateInstallationCost() * reversedNetworks.size() << " рублей" << endl;
-
-    networks.insert(networks.begin() + networks.size() / 2, 500, PeerToPeerNetwork("Inserted Network", 5000, 5));
-    
-    cout << "Вычисляемый показатель после добавления 500 элементов: " 
-         << networks[0].calculateInstallationCost() * networks.size() << " рублей" << endl;
-
-    networks.clear();
-    
-    if (networks.empty()) {
-        cout << "Вектор очищен и пуст." << endl;
+    // Перебираем все сети и выводим их детали и стоимость установки
+    for (const auto& network : networks) {
+        network->showDetails(); // Показываем детали сети
+        cout << "Общая стоимость установки: " << network->calculateInstallationCost() << " рублей" << endl << endl; // Выводим стоимость установки
     }
 
-    return 0;
+    // Освобождаем память, выделенную для объектов сетей
+    for (auto& network : networks) {
+        delete network; 
+    }
+    networks.clear(); // Очищаем вектор
+
+    return 0; // Завершение программы
 }

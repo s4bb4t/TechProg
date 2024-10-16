@@ -1,54 +1,28 @@
 #include <iostream>
-#include "operations.h"
-
-using namespace std;
+#include "operations.h" // Подключаем заголовочный файл с определением операций
 
 int main() {
-    const int arraySize = 5; // Размер массивов
-    LocalNetwork* networks[arraySize]; // Массив указателей на базовый класс
+    double num1, num2; // Переменные для хранения вводимых чисел
 
-    // Создание объектов производных классов
-    for (int i = 0; i < arraySize; ++i) {
-        if (i % 2 == 0) {
-            networks[i] = new PeerToPeerNetwork("Сеть P2P " + to_string(i + 1), 2000 + i * 100, rand() % 10 + 1);
-        } else {
-            networks[i] = new ClientServerNetwork("Сеть C/S " + to_string(i + 1), 3000 + i * 150, rand() % 5 + 1);
-        }
-    }
+    // Запрашиваем первое число у пользователя
+    std::cout << "Введите первое число: ";
+    std::cin >> num1;
+    
+    // Запрашиваем второе число у пользователя
+    std::cout << "Введите второе число: ";
+    std::cin >> num2;
 
-    // Меню для демонстрации содержимого проекта
-    int choice;
-    do {
-        cout << "\nМеню:\n";
-        cout << "1. Показать характеристики сетей\n";
-        cout << "2. Расчитать стоимость установки сетей\n";
-        cout << "0. Выход\n";
-        cout << "Выберите опцию: ";
-        cin >> choice;
+    // Выполняем арифметические операции и выводим результаты
+    std::cout << "Сложение: " << add(num1, num2) << std::endl;
+    std::cout << "Вычитание: " << subtract(num1, num2) << std::endl;
+    std::cout << "Умножение: " << multiply(num1, num2) << std::endl;
 
-        switch (choice) {
-            case 1:
-                for (int i = 0; i < arraySize; ++i) {
-                    networks[i]->showDetails();
-                }
-                break;
-            case 2:
-                for (int i = 0; i < arraySize; ++i) {
-                    cout << "Итоговая стоимость монтажа для " << networks[i]->getNetworkName() << ": "
-                         << networks[i]->calculateInstallationCost() << " рублей" << endl;
-                }
-                break;
-            case 0:
-                cout << "Выход из программы." << endl;
-                break;
-            default:
-                cout << "Неверный выбор. Пожалуйста, попробуйте снова." << endl;
-        }
-    } while (choice != 0);
-
-    // Освобождение памяти
-    for (int i = 0; i < arraySize; ++i) {
-        delete networks[i];
+    // Обрабатываем исключение для деления на ноль
+    try {
+        std::cout << "Деление: " << divide(num1, num2) << std::endl;
+    } catch (const std::invalid_argument& e) {
+        // Выводим сообщение об ошибке, если произошло исключение
+        std::cerr << e.what() << std::endl;
     }
 
     return 0; // Завершение программы
