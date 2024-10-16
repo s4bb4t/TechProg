@@ -19,4 +19,25 @@ public:
 };
 
 // Класс для одноранговых сетей
-class PeerToPeerNetwork : publ
+class PeerToPeerNetwork : private LocalNetwork {
+private:
+    int numberOfNodes; // Количество узлов
+
+public:
+    PeerToPeerNetwork(string name, double cost, int nodes); // Конструктор
+    void showDetails(); // Метод для отображения деталей сети
+    double calculateInstallationCost(); // Метод для расчета стоимости установки
+};
+
+// Класс для сетей типа клиент-сервер
+class ClientServerNetwork : private LocalNetwork {
+private:
+    int numberOfClients; // Количество клиентов
+
+public:
+    ClientServerNetwork(string name, double cost, int clients); // Конструктор
+    void showDetails(); // Метод для отображения деталей сети
+    double calculateInstallationCost(); // Метод для расчета стоимости установки
+};
+
+#endif // LOCALNETWORK_H

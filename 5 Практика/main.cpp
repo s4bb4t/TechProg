@@ -4,22 +4,31 @@
 using namespace std;
 
 int main() {
-    // Создание одноранговой сети с заданными параметрами
-    PeerToPeerNetwork p2p("Сеть 1", 2000, 10);
-    // Создание сети типа клиент-сервер с заданными параметрами
-    ClientServerNetwork c2s("Сеть 2", 3000, 5);
+    // Создание динамических массивов объектов производных классов
+    const int arraySize = 5;
+    PeerToPeerNetwork* peerToPeerNetworks = new PeerToPeerNetwork[arraySize];
+    ClientServerNetwork* clientServerNetworks = new ClientServerNetwork[arraySize];
 
-    // Вывод деталей одноранговой сети
-    cout << "Детали одноранговой сети:" << endl;
-    p2p.showDetails();
-    cout << "Итоговая стоимость монтажа: " << p2p.calculateInstallationCost() << " рублей" << endl;
+    // Заполнение массивов случайными значениями
+    for (int i = 0; i < arraySize; ++i) {
+        peerToPeerNetworks[i] = PeerToPeerNetwork("Peer Network " + to_string(i+1), rand() % 5000 + 1000, rand() % 20 + 1);
+        clientServerNetworks[i] = ClientServerNetwork("Client-Server Network " + to_string(i+1), rand() % 5000 + 1000, rand() % 10 + 1);
+    }
 
-    cout << endl;
+    // Вывод информации и расчет итоговой стоимости монтажа
+    for (int i = 0; i < arraySize; ++i) {
+        cout << "Детали одноранговой сети #" << (i+1) << ":" << endl;
+        peerToPeerNetworks[i].showDetails();
+        cout << "Итоговая стоимость монтажа: " << peerToPeerNetworks[i].calculateInstallationCost() << " рублей" << endl << endl;
 
-    // Вывод деталей сети типа клиент-сервер
-    cout << "Детали сети типа клиент-сервер:" << endl;
-    c2s.showDetails();
-    cout << "Итоговая стоимость монтажа: " << c2s.calculateInstallationCost() << " рублей" << endl;
+        cout << "Детали сети типа клиент-сервер #" << (i+1) << ":" << endl;
+        clientServerNetworks[i].showDetails();
+        cout << "Итоговая стоимость монтажа: " << clientServerNetworks[i].calculateInstallationCost() << " рублей" << endl << endl;
+    }
+
+    // Освобождение памяти
+    delete[] peerToPeerNetworks;
+    delete[] clientServerNetworks;
 
     return 0; // Завершение программы
 }
